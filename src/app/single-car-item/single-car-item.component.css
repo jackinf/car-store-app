@@ -1,0 +1,10 @@
+.small-btn {
+  border: 0;
+  margin: 2px;
+  padding: 5px;
+  border-radius: 4px;
+}
+.danger {
+  background: #572626;
+  color: white;
+}
