@@ -1,0 +1,59 @@
+<div class="seller-dashboard add-item">
+  <h3>Add a new Car</h3>
+
+  <div>
+    <label for="car-name" class="car-store-field">
+      Car name
+      <input id="car-name" autofocus [(ngModel)]="newCar.name" type="text" placeholder="Enter car name">
+    </label>
+  </div>
+
+  <div>
+    <label for="car-price" class="car-store-field">
+      Car price
+      <input id="car-price" class="car-store-field" autofocus [(ngModel)]="newCar.price" type="number"
+             placeholder="Enter car price">
+    </label>
+  </div>
+
+  <div>
+    <label for="car-qty" class="car-store-field">
+      Car quantity
+      <input id="car-qty" class="car-store-field" autofocus [(ngModel)]="newCar.qty" type="number"
+             placeholder="Enter car qty">
+    </label>
+  </div>
+
+  <button (click)="addCar();">Add</button>
+</div>
+
+<hr/>
+
+<h2>All cars</h2>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef> ID </th>
+    <td mat-cell *matCellDef="let car"> {{car.id}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell *matCellDef="let car"> {{car.name}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="price">
+    <th mat-header-cell *matHeaderCellDef> Price </th>
+    <td mat-cell *matCellDef="let car"> {{car.price}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="qty">
+    <th mat-header-cell *matHeaderCellDef> Qty </th>
+    <td mat-cell *matCellDef="let car"> {{car.qty}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+

@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Car} from "./models/car.model";
-import {CarApiService} from "./services/car-api-service.service";
-import {CARS} from "./mock-car-list";
+import {SeedService} from "./services/utils/seed.service";
 
 @Component({
   selector: 'app-root',
@@ -10,12 +8,14 @@ import {CARS} from "./mock-car-list";
 })
 export class AppComponent implements OnInit{
   title = 'Car store'
-  ngOnInit(): void {}
-}
 
-/*
-* Car rental app:
-*  View available cars and their info
-*  Rent a car to user's name
-*  View rented cars
-*  Return cars*/
+  constructor(private seedService: SeedService) {
+  }
+
+  ngOnInit(): void {
+    (async () => {
+      await this.seedService.trySeedBuyer();
+      await this.seedService.trySeedAllCars();
+    })();
+  }
+}

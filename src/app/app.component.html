@@ -1,6 +1,29 @@
-<h1>Welcome to car rental service</h1>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav role="navigation">
+    <app-sidenav-list (sidenavClose)="sidenav.close()"></app-sidenav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <!--in here all the content must reside. We will add a navigation header as well-->
+    <app-header (sidenavToggle)="sidenav.toggle()"></app-header>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
 
-<nav>
-  <a routerLink="/cars/">My cars</a>
-</nav>
-<router-outlet></router-outlet>
+
+<!--<div class="container">-->
+<!--  <p>-->
+<!--    <mat-toolbar>-->
+<!--      <span>Car Rental Service</span>-->
+<!--      <span>-->
+<!--      <a mat-icon-button routerLink="/seller/dashboard">Seller Dashboard</a>-->
+<!--    </span>-->
+<!--      <span>-->
+<!--      <a mat-icon-button routerLink="/buyer/dashboard">Buyer Dashboard</a>-->
+<!--    </span>-->
+<!--    </mat-toolbar>-->
+<!--  </p>-->
+
+<!--  <router-outlet></router-outlet>-->
+<!--</div>-->

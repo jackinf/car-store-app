@@ -2,8 +2,13 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+const crudCrudId = "9f322e94f6c24902894e8f0dc1a07b67";
+
 export const environment = {
-  production: false
+  production: false,
+  allCarsApi: `https://crudcrud.com/api/${crudCrudId}/all-cars/`,
+  buyersApi: `https://crudcrud.com/api/${crudCrudId}/buyers/`,
+  buyerCarsApi: `https://crudcrud.com/api/${crudCrudId}/buyer-cars/`,
 };
 
 /*
