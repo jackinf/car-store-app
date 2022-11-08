@@ -6,7 +6,11 @@
     <!--in here all the content must reside. We will add a navigation header as well-->
     <app-header (sidenavToggle)="sidenav.toggle()"></app-header>
     <main>
-      <router-outlet></router-outlet>
+      <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+        <div fxFlex="60%" fxFlex.md="100%">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>

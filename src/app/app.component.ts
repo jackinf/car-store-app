@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {SeedService} from "./services/utils/seed.service";
+import {environment} from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -13,9 +14,11 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    (async () => {
-      await this.seedService.trySeedBuyer();
-      await this.seedService.trySeedAllCars();
-    })();
+    if (environment.seed) {
+      (async () => {
+        await this.seedService.trySeedBuyer();
+        await this.seedService.trySeedAllCars();
+      })();
+    }
   }
 }

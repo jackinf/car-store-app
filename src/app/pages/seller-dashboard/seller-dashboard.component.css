@@ -3,3 +3,9 @@
 table {
   width: 100%;
 }
+
+.adding-item .mat-form-field, .adding-item .mat-checkbox, .adding-item .mat-raised-button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}

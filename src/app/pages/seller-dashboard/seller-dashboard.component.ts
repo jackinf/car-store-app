@@ -1,15 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Car} from "../../models/car.model";
 import {AllCarsApiService} from "../../services/api/all-cars-api.service";
 import {Location} from "@angular/common";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
-function getDefault() {
-  return {
-    name: '',
-    price: 0,
-    qty: 0,
-    isAvailable: false
-  };
+function getDefaultForm(): FormGroup {
+  return new FormGroup({
+    name: new FormControl('', Validators.required),
+    price: new FormControl(0, [
+      Validators.required,
+      Validators.min(300),
+      Validators.max(100_000)
+    ]),
+    qty: new FormControl(0, [
+      Validators.required,
+      Validators.min(1),
+      Validators.max(10)
+    ]),
+    isAvailable: new FormControl(false, Validators.required)
+  });
 }
 
 @Component({
@@ -24,8 +33,6 @@ export class SellerDashboardComponent implements OnInit {
   displayedColumns: string[] = ['id', 'name', 'price', 'qty'];
   dataSource: Car[] = [];
 
-  newCar = getDefault();
-
   constructor(
     private carAPIService: AllCarsApiService,
     private location: Location
@@ -33,46 +40,81 @@ export class SellerDashboardComponent implements OnInit {
   ) {
   }
 
+  addCarForm = getDefaultForm();
+
+  // For displaying error messages
+  errors = {
+    nameHasErrors: () => Boolean(this.addCarForm.get('name')?.errors),
+    priceHasErrors: () => Boolean(this.addCarForm.get('price')?.errors),
+    qtyHasErrors: () => Boolean(this.addCarForm.get('qty')?.errors),
+    anyErrors: () => this.errors.nameHasErrors() || this.errors.priceHasErrors() || this.errors.qtyHasErrors(),
+
+    getForName: () => this.addCarForm.get('name')?.hasError('required') ? 'You must enter a value' : '',
+    getForPrice: () => {
+      const elem = this.addCarForm.get('price');
+      if (elem?.hasError('required')) {
+        return 'You must enter a value';
+      }
+
+
+      if (elem?.hasError('min')) {
+        return 'Price must be at least 300';
+      }
+
+      if (elem?.hasError('max')) {
+        return 'Price must be at most 100,000';
+      }
+
+      return '';
+    },
+    getForQty: () => {
+      const elem = this.addCarForm.get('qty');
+      if (elem?.hasError('required')) {
+        return 'You must enter a value';
+      }
+
+
+      if (elem?.hasError('min')) {
+        return 'Price must be at least 1';
+      }
+
+      if (elem?.hasError('max')) {
+        return 'Price must be at most 10';
+      }
+
+      return '';
+    },
+  }
+
   ngOnInit(): void {
     this.getAllAvailableCars();
   }
 
-  goBack() {
-    this.location.back();
-  }
-
-  public getAllAvailableCars() : void {
+  public getAllAvailableCars(): void {
     this.carAPIService.list()
       .then((response: Response) => response.json())
       .then((response: Car[]) => this.dataSource = response)
       .catch(console.log);
   }
 
-  public addCar(): void {
-    if (this.newCar.name.length < 2 && this.newCar.name.length > 100) {
-      alert("Please provide a car name with length between 2 and 100 letters")
+  public onAddCarSubmit(): void {
+    if (this.errors.anyErrors()) {
       return;
     }
 
-    if (this.newCar.price < 300 && this.newCar.price > 1_000_000) {
-      alert("Please provide a price between 300€ and 1 000 000€")
-    }
-
-    if (this.newCar.qty < 1 && this.newCar.qty > 100) {
-      alert("Please provide a quantity between 1 and 100")
-    }
+    const newCar = this.addCarForm.value;
+    console.log(newCar);
 
     const carItem: Car = new Car(
-      this.newCar.name, this.newCar.price, this.newCar.qty, this.newCar.isAvailable
+      newCar.name, newCar.price, newCar.qty, newCar.isAvailable
     );
 
     this.carAPIService.create(carItem)
       .then(() => {
+        this.addCarForm = getDefaultForm();
         this.dataSource.push(carItem);
-        this.newCar = getDefault();
       })
-      .then(this.getAllAvailableCars)
-      .catch(console.log)
+      .then(this.getAllAvailableCars);
   }
 
   public deleteCar(id?: string): void {
