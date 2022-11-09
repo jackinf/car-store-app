@@ -19,8 +19,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatCardModule} from '@angular/material/card';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {SidenavListComponent} from './navigation/sidenav-list/sidenav-list.component';
-import {HeaderComponent} from './navigation/header/header.component';
+import {SidenavListComponent} from './components/navigation/sidenav-list/sidenav-list.component';
+import {HeaderComponent} from './components/navigation/header/header.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 

@@ -7,9 +7,12 @@ const crudCrudId = "9f322e94f6c24902894e8f0dc1a07b67";
 export const environment = {
   production: false,
   seed: false,
-  allCarsApi: `https://crudcrud.com/api/${crudCrudId}/all-cars/`,
-  buyersApi: `https://crudcrud.com/api/${crudCrudId}/buyers/`,
-  buyerCarsApi: `https://crudcrud.com/api/${crudCrudId}/buyer-cars/`,
+  // allCarsApi: `https://crudcrud.com/api/${crudCrudId}/all-cars/`,
+  // buyersApi: `https://crudcrud.com/api/${crudCrudId}/buyers/`,
+  // buyerCarsApi: `https://crudcrud.com/api/${crudCrudId}/buyer-cars/`,
+  allCarsApi: `http://localhost:4210/all-cars/`,
+  buyersApi: `http://localhost:4210/buyers/`,
+  buyerCarsApi: `http://localhost:4210/buyer-cars/`,
 };
 
 /*

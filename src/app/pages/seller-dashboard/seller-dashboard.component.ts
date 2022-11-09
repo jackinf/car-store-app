@@ -41,6 +41,7 @@ export class SellerDashboardComponent implements OnInit {
   }
 
   addCarForm = getDefaultForm();
+  showForm = false;
 
   // For displaying error messages
   errors = {
@@ -87,6 +88,17 @@ export class SellerDashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.reset();
+  }
+
+  public startAddingNewCar() {
+    this.addCarForm = getDefaultForm();
+    this.showForm = true;
+  }
+
+  public reset() {
+    this.addCarForm = getDefaultForm();
+    this.showForm = false;
     this.getAllAvailableCars();
   }
 
@@ -103,28 +115,22 @@ export class SellerDashboardComponent implements OnInit {
     }
 
     const newCar = this.addCarForm.value;
-    console.log(newCar);
 
-    const carItem: Car = new Car(
-      newCar.name, newCar.price, newCar.qty, newCar.isAvailable
-    );
-
-    this.carAPIService.create(carItem)
-      .then(() => {
+    this.carAPIService.create({
+      name: newCar.name,
+      price: newCar.price,
+      qty: newCar.qty,
+      isAvailable: newCar.isAvailable
+    })
+      .then(response => response.json())
+      .then(result => {
         this.addCarForm = getDefaultForm();
-        this.dataSource.push(carItem);
+        this.dataSource.push(new Car(result.id, newCar.name, newCar.price, newCar.qty, newCar.isAvailable));
       })
-      .then(this.getAllAvailableCars);
+      .then(() => this.reset());
   }
 
-  public deleteCar(id?: string): void {
-    if (!id) {
-      alert('Error, cannot delete this car');
-      return;
-    }
-
-    this.carAPIService.delete(id)
-      .then(this.getAllAvailableCars)
-      .catch(console.log)
+  public deleteCar(id: number): void {
+    this.carAPIService.delete(id).then(() => this.reset())
   }
 }

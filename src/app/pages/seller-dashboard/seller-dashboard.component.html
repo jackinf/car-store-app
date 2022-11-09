@@ -1,4 +1,4 @@
-<div class="seller-dashboard">
+<div class="seller-dashboard" *ngIf="showForm">
   <h3>Add a new Car</h3>
 
   <form class="adding-item" (ngSubmit)="onAddCarSubmit()" [formGroup]="addCarForm">
@@ -26,7 +26,8 @@
   </form>
 </div>
 
-<hr/>
+
+<button type="submit" mat-raised-button color="primary" (click)="startAddingNewCar()">Add new car</button>
 
 <h2>All cars</h2>
 

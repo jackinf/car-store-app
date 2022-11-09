@@ -1,1 +1,74 @@
-<p>buyer-dashboard works!</p>
+<div class="buy-car" *ngIf="selectedCar">
+  <h3>Buy the car</h3>
+
+  <mat-card>
+    Name: {{selectedCar.name}}, Price: {{selectedCar.price}}, Quantity: {{selectedCar.qty}}
+  </mat-card>
+
+  <form class="adding-item" (ngSubmit)="onBuyCarSubmit()" [formGroup]="buyCarForm">
+    <mat-form-field appearance="fill">
+      <mat-label>How many would you like to buy?</mat-label>
+      <input matInput formControlName="qty" type="number">
+      <mat-error *ngIf="errors.qtyHasErrors">{{errors.getForQty()}}</mat-error>
+    </mat-form-field>
+
+    <button type="submit" mat-raised-button color="primary">Submit</button>
+  </form>
+</div>
+
+<h2>Your garage</h2>
+
+<table mat-table [dataSource]="buyerCarsDataSource" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef> ID</th>
+    <td mat-cell *matCellDef="let car"> {{car.id}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Name</th>
+    <td mat-cell *matCellDef="let car"> {{car.name}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="qty">
+    <th mat-header-cell *matHeaderCellDef> Qty</th>
+    <td mat-cell *matCellDef="let car"> {{car.qty}}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="buyerCarsDisplayedColumns"></tr>
+  <tr
+    mat-row
+    *matRowDef="let row; columns: buyerCarsDisplayedColumns;"></tr>
+</table>
+
+<h2>Shop: Click on the car to buy</h2>
+
+<table mat-table [dataSource]="allCarsDataSource" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef> ID</th>
+    <td mat-cell *matCellDef="let car"> {{car.id}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Name</th>
+    <td mat-cell *matCellDef="let car"> {{car.name}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="price">
+    <th mat-header-cell *matHeaderCellDef> Price</th>
+    <td mat-cell *matCellDef="let car"> {{car.price}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="qty">
+    <th mat-header-cell *matHeaderCellDef> Qty</th>
+    <td mat-cell *matCellDef="let car"> {{car.qty}}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="allCarsDisplayedColumns"></tr>
+  <tr
+    mat-row
+    (click)="onSelectCarToBuy(row)"
+    *matRowDef="let row; columns: allCarsDisplayedColumns;"></tr>
+</table>
+

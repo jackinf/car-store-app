@@ -8,6 +8,13 @@ export interface CreatePayload {
   isAvailable: boolean;
 }
 
+export interface UpdatePayload {
+  name: string;
+  price: number;
+  qty: number;
+  isAvailable: boolean;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -19,6 +26,16 @@ export class AllCarsApiService {
 
   public list(): Promise<Response> {
     return fetch(this.apiURL, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    });
+  }
+
+  public get(id: number): Promise<Response> {
+    return fetch(`${this.apiURL}${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -40,7 +57,20 @@ export class AllCarsApiService {
     );
   }
 
-  public delete(id: string): Promise<Response> {
+  public update(id: number, carItem: UpdatePayload): Promise<Response> {
+    return fetch(`${this.apiURL}${id}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify(carItem)
+      }
+    );
+  }
+
+  public delete(id: number): Promise<Response> {
     return fetch(this.apiURL + id, {
       method: 'DELETE',
       headers: {
