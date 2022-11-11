@@ -4,7 +4,7 @@
       "id": 1,
       "name": "John Doe",
       "email": "test@test.com",
-      "balance": 123123
+      "balance": 3334
     }
   ],
   "all-cars": [
@@ -12,7 +12,7 @@
       "id": 1,
       "name": "Audi",
       "price": 52642,
-      "qty": 23
+      "qty": 20
     },
     {
       "id": 2,
@@ -33,32 +33,32 @@
       "qty": 7
     },
     {
+      "id": 5,
       "name": "qwertyyy",
       "price": 12333,
-      "qty": 5,
-      "isAvailable": true,
-      "id": 5
+      "qty": 3,
+      "isAvailable": true
     },
     {
+      "id": 6,
       "name": "asdf",
       "price": 23333,
-      "qty": 4,
-      "isAvailable": false,
-      "id": 6
+      "qty": 1,
+      "isAvailable": false
     },
     {
+      "id": 8,
       "name": "aaa",
       "price": 1222,
-      "qty": 3,
-      "isAvailable": true,
-      "id": 8
+      "qty": -2,
+      "isAvailable": true
     },
     {
+      "id": 9,
       "name": "ddddd",
       "price": 33443,
-      "qty": 2,
-      "isAvailable": false,
-      "id": 9
+      "qty": 0,
+      "isAvailable": false
     }
   ],
   "buyer-cars": [
@@ -86,6 +86,51 @@
       "name": "Mercedes",
       "qty": 3,
       "id": 5
+    },
+    {
+      "name": "Audi",
+      "qty": 3,
+      "id": 6
+    },
+    {
+      "name": "aaa",
+      "qty": 3,
+      "id": 7
+    },
+    {
+      "name": "aaa",
+      "qty": 2,
+      "id": 8
+    },
+    {
+      "name": "ddddd",
+      "qty": 1,
+      "id": 9
+    },
+    {
+      "name": "ddddd",
+      "qty": 1,
+      "id": 10
+    },
+    {
+      "name": "qwertyyy",
+      "qty": 2,
+      "id": 11
+    },
+    {
+      "name": "asdf",
+      "qty": 1,
+      "id": 12
+    },
+    {
+      "name": "asdf",
+      "qty": 1,
+      "id": 13
+    },
+    {
+      "name": "asdf",
+      "qty": 1,
+      "id": 14
     }
   ]
 }

@@ -1,21 +1,3 @@
-<div class="buy-car" *ngIf="selectedCar">
-  <h3>Buy the car</h3>
-
-  <mat-card>
-    Name: {{selectedCar.name}}, Price: {{selectedCar.price}}, Quantity: {{selectedCar.qty}}
-  </mat-card>
-
-  <form class="adding-item" (ngSubmit)="onBuyCarSubmit()" [formGroup]="buyCarForm">
-    <mat-form-field appearance="fill">
-      <mat-label>How many would you like to buy?</mat-label>
-      <input matInput formControlName="qty" type="number">
-      <mat-error *ngIf="errors.qtyHasErrors">{{errors.getForQty()}}</mat-error>
-    </mat-form-field>
-
-    <button type="submit" mat-raised-button color="primary">Submit</button>
-  </form>
-</div>
-
 <mat-tab-group>
   <mat-tab label="Balance">
     <mat-card>
@@ -96,7 +78,7 @@
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let row;" class="action-item">
           <button mat-icon-button>
-            <mat-icon (click)="onSelectCarToBuy(row)">money</mat-icon>
+            <mat-icon (click)="onSelectCarToBuy(row.id)">money</mat-icon>
           </button>
         </td>
       </ng-container>
