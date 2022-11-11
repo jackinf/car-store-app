@@ -34,6 +34,16 @@ export class AllCarsApiService {
     });
   }
 
+  public listAvailable(): Promise<Response> {
+    return fetch(this.apiURL + "?isAvailable=true", {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    });
+  }
+
   public get(id: number): Promise<Response> {
     return fetch(`${this.apiURL}${id}`, {
       method: 'GET',

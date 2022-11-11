@@ -4,7 +4,7 @@
       "id": 1,
       "name": "John Doe",
       "email": "test@test.com",
-      "balance": 3334
+      "balance": 702443
     }
   ],
   "all-cars": [
@@ -12,31 +12,35 @@
       "id": 1,
       "name": "Audi",
       "price": 52642,
-      "qty": 20
+      "qty": 16,
+      "isAvailable": true
     },
     {
       "id": 2,
       "name": "Mercedes",
       "price": 57127,
-      "qty": 12
+      "qty": 12,
+      "isAvailable": false
     },
     {
       "id": 3,
       "name": "Skoda",
       "price": 8999,
-      "qty": 1
+      "qty": 1,
+      "isAvailable": true
     },
     {
       "id": 4,
       "name": "Volvo",
       "price": 28996,
-      "qty": 7
+      "qty": 4,
+      "isAvailable": true
     },
     {
       "id": 5,
       "name": "qwertyyy",
       "price": 12333,
-      "qty": 3,
+      "qty": 1,
       "isAvailable": true
     },
     {
@@ -50,7 +54,7 @@
       "id": 8,
       "name": "aaa",
       "price": 1222,
-      "qty": -2,
+      "qty": 2,
       "isAvailable": true
     },
     {
@@ -63,74 +67,16 @@
   ],
   "buyer-cars": [
     {
-      "id": 1,
       "name": "Audi",
-      "qty": 3
+      "qty": 19,
+      "carId": 1,
+      "id": 1
     },
     {
       "name": "Volvo",
-      "qty": 2,
+      "qty": 3,
+      "carId": 4,
       "id": 2
-    },
-    {
-      "name": "Volvo",
-      "qty": 2,
-      "id": 3
-    },
-    {
-      "name": "Mercedes",
-      "qty": 2,
-      "id": 4
-    },
-    {
-      "name": "Mercedes",
-      "qty": 3,
-      "id": 5
-    },
-    {
-      "name": "Audi",
-      "qty": 3,
-      "id": 6
-    },
-    {
-      "name": "aaa",
-      "qty": 3,
-      "id": 7
-    },
-    {
-      "name": "aaa",
-      "qty": 2,
-      "id": 8
-    },
-    {
-      "name": "ddddd",
-      "qty": 1,
-      "id": 9
-    },
-    {
-      "name": "ddddd",
-      "qty": 1,
-      "id": 10
-    },
-    {
-      "name": "qwertyyy",
-      "qty": 2,
-      "id": 11
-    },
-    {
-      "name": "asdf",
-      "qty": 1,
-      "id": 12
-    },
-    {
-      "name": "asdf",
-      "qty": 1,
-      "id": 13
-    },
-    {
-      "name": "asdf",
-      "qty": 1,
-      "id": 14
     }
   ]
 }

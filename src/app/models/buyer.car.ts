@@ -1,6 +1,6 @@
 export class BuyerCar {
   constructor(
-    public id: string,
+    public id: number,
     public name: string,
     public qty: number) {
   }

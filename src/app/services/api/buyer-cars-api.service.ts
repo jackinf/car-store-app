@@ -4,6 +4,7 @@ import {environment} from "../../../environments/environment";
 export interface CreatePayload {
   name: string;
   qty: number;
+  carId: number;
 }
 
 @Injectable({
@@ -36,6 +37,29 @@ export class BuyerCarsApiService {
         body: JSON.stringify(carItem)
       }
     );
+  }
+
+  public increaseQuantity(id: number, qty: number): Promise<Response> {
+    return fetch(this.apiURL + id,
+      {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({ qty })
+      }
+    );
+  }
+
+  public findByCarId(carId: number): Promise<Response> {
+    return fetch(`${this.apiURL}?carId=${carId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    });
   }
 
   public delete(id: string): Promise<Response> {

@@ -64,7 +64,7 @@ export class BuyerDashboardComponent implements OnInit {
 
   public getAllAvailableCars(): void {
     // TODO: filter by available
-    this.allCarsAPIService.list()
+    this.allCarsAPIService.listAvailable()
       .then((response: Response) => response.json())
       .then((response: Car[]) => this.allCarsDataSource = response);
   }
@@ -79,8 +79,6 @@ export class BuyerDashboardComponent implements OnInit {
     const car: Car = await this.allCarsAPIService.get(id)
       .then(response => response.json())
       .then(result => new Car(result.id, result.name, result.price, result.qty, result.isAvailable));
-
-    const buyer = await this.buyerApiService.getCurrent().then(response => response.json());
 
     const dialogRef = this.dialog.open(BuyerBuyNewCarDialogComponent, {
       width: '750px',
@@ -100,7 +98,19 @@ export class BuyerDashboardComponent implements OnInit {
       car.changeQty(-newCar.qty);
 
       const updateShopCarPromise = this.allCarsAPIService.update(car.id, car);
-      const addBuyerCarPromise = this.buyerCarsAPIService.create({ name: car.name, qty: newCar.qty });
+
+      const addBuyerCarPromise = this.buyerCarsAPIService
+        .findByCarId(id)
+        .then(response => response.json())
+        .then((buyerCars: BuyerCar[]) => {
+          const buyerCar = buyerCars ? buyerCars[0] : null;
+          if (buyerCar) {
+            return this.buyerCarsAPIService.increaseQuantity(buyerCar.id, buyerCar.qty + newCar.qty);
+          } else {
+            return this.buyerCarsAPIService.create({ name: car.name, qty: newCar.qty, carId: id });
+          }
+        });
+
       const updateBuyerBalancePromise = this.buyerApiService
         .getCurrent()
         .then(response => response.json())
