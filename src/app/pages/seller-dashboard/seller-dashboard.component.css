@@ -9,3 +9,9 @@ table {
   flex-direction: column;
   align-items: flex-start;
 }
+
+.action-item {
+  display: flex;
+  padding: 5px 0;
+  justify-content: flex-end;
+}

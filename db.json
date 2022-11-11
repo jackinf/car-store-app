@@ -33,7 +33,7 @@
       "qty": 7
     },
     {
-      "name": "qwer",
+      "name": "qwertyyy",
       "price": 12333,
       "qty": 5,
       "isAvailable": true,
@@ -47,11 +47,18 @@
       "id": 6
     },
     {
-      "name": "vvv",
-      "price": 2332,
-      "qty": 4,
+      "name": "aaa",
+      "price": 1222,
+      "qty": 3,
+      "isAvailable": true,
+      "id": 8
+    },
+    {
+      "name": "ddddd",
+      "price": 33443,
+      "qty": 2,
       "isAvailable": false,
-      "id": 7
+      "id": 9
     }
   ],
   "buyer-cars": [

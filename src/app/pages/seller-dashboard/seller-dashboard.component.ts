@@ -3,23 +3,11 @@ import {Car} from "../../models/car.model";
 import {AllCarsApiService} from "../../services/api/all-cars-api.service";
 import {Location} from "@angular/common";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-
-function getDefaultForm(): FormGroup {
-  return new FormGroup({
-    name: new FormControl('', Validators.required),
-    price: new FormControl(0, [
-      Validators.required,
-      Validators.min(300),
-      Validators.max(100_000)
-    ]),
-    qty: new FormControl(0, [
-      Validators.required,
-      Validators.min(1),
-      Validators.max(10)
-    ]),
-    isAvailable: new FormControl(false, Validators.required)
-  });
-}
+import {
+  CarData,
+  SellerCarDialogComponent
+} from "../../components/dialogs/seller-add-new-car-dialog/seller-car-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-seller-dashboard',
@@ -30,107 +18,78 @@ export class SellerDashboardComponent implements OnInit {
 
   title = 'Car store';
 
-  displayedColumns: string[] = ['id', 'name', 'price', 'qty'];
+  displayedColumns: string[] = ['id', 'name', 'price', 'qty', 'actions'];
   dataSource: Car[] = [];
 
   constructor(
     private carAPIService: AllCarsApiService,
-    private location: Location
-    // private route: ActivatedRoute
+    private dialog: MatDialog,
   ) {
-  }
-
-  addCarForm = getDefaultForm();
-  showForm = false;
-
-  // For displaying error messages
-  errors = {
-    nameHasErrors: () => Boolean(this.addCarForm.get('name')?.errors),
-    priceHasErrors: () => Boolean(this.addCarForm.get('price')?.errors),
-    qtyHasErrors: () => Boolean(this.addCarForm.get('qty')?.errors),
-    anyErrors: () => this.errors.nameHasErrors() || this.errors.priceHasErrors() || this.errors.qtyHasErrors(),
-
-    getForName: () => this.addCarForm.get('name')?.hasError('required') ? 'You must enter a value' : '',
-    getForPrice: () => {
-      const elem = this.addCarForm.get('price');
-      if (elem?.hasError('required')) {
-        return 'You must enter a value';
-      }
-
-
-      if (elem?.hasError('min')) {
-        return 'Price must be at least 300';
-      }
-
-      if (elem?.hasError('max')) {
-        return 'Price must be at most 100,000';
-      }
-
-      return '';
-    },
-    getForQty: () => {
-      const elem = this.addCarForm.get('qty');
-      if (elem?.hasError('required')) {
-        return 'You must enter a value';
-      }
-
-
-      if (elem?.hasError('min')) {
-        return 'Price must be at least 1';
-      }
-
-      if (elem?.hasError('max')) {
-        return 'Price must be at most 10';
-      }
-
-      return '';
-    },
   }
 
   ngOnInit(): void {
     this.reset();
   }
 
-  public startAddingNewCar() {
-    this.addCarForm = getDefaultForm();
-    this.showForm = true;
+  public startAddingNewCar(): void {
+    const dialogRef = this.dialog.open(SellerCarDialogComponent, {
+      width: '750px',
+      disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe((newCar: CarData | null) => {
+      if (!newCar) {
+        return;
+      }
+
+      this.carAPIService.create({
+        name: newCar.name,
+        price: newCar.price,
+        qty: newCar.qty,
+        isAvailable: newCar.isAvailable
+      })
+        .then(response => response.json())
+        .then(() => this.reset());
+    });
   }
 
   public reset() {
-    this.addCarForm = getDefaultForm();
-    this.showForm = false;
     this.getAllAvailableCars();
   }
 
   public getAllAvailableCars(): void {
     this.carAPIService.list()
       .then((response: Response) => response.json())
-      .then((response: Car[]) => this.dataSource = response)
-      .catch(console.log);
+      .then((response: Car[]) => this.dataSource = response);
   }
 
-  public onAddCarSubmit(): void {
-    if (this.errors.anyErrors()) {
-      return;
-    }
+  public async onEdit(id: any) {
+    const car: Car = await this.carAPIService.get(id)
+      .then((response: Response) => response.json());
 
-    const newCar = this.addCarForm.value;
+    const dialogRef = this.dialog.open(SellerCarDialogComponent, {
+      width: '750px',
+      disableClose: true,
+      data: {name: car.name, price: car.price, qty: car.qty, isAvailable: car.isAvailable},
+    });
 
-    this.carAPIService.create({
-      name: newCar.name,
-      price: newCar.price,
-      qty: newCar.qty,
-      isAvailable: newCar.isAvailable
-    })
-      .then(response => response.json())
-      .then(result => {
-        this.addCarForm = getDefaultForm();
-        this.dataSource.push(new Car(result.id, newCar.name, newCar.price, newCar.qty, newCar.isAvailable));
+    dialogRef.afterClosed().subscribe((newCar: CarData | null) => {
+      if (!newCar) {
+        return;
+      }
+
+      this.carAPIService.update(id, {
+        name: newCar.name,
+        price: newCar.price,
+        qty: newCar.qty,
+        isAvailable: newCar.isAvailable
       })
-      .then(() => this.reset());
+        .then(response => response.json())
+        .then(() => this.reset());
+    });
   }
 
-  public deleteCar(id: number): void {
+  public onDelete(id: any) {
     this.carAPIService.delete(id).then(() => this.reset())
   }
 }
