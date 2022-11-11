@@ -6,13 +6,24 @@ import {BuyerCarsApiService} from "../../services/api/buyer-cars-api.service";
 import {BuyerCar} from "../../models/buyer.car";
 import {ActivatedRoute} from "@angular/router";
 import {AllCarsApiService} from "../../services/api/all-cars-api.service";
+import {BuyerApiService} from "../../services/api/buyerApiService";
 
-function getDefaultForm(): FormGroup {
+function getDefaultBuyCarForm(): FormGroup {
   return new FormGroup({
     qty: new FormControl(0, [
       Validators.required,
       Validators.min(1),
       Validators.max(10)
+    ]),
+  });
+}
+
+function getDefaultBalanceForm(): FormGroup {
+  return new FormGroup({
+    amount: new FormControl(0, [
+      Validators.required,
+      Validators.min(0),
+      Validators.max(1_000_000)
     ]),
   });
 }
@@ -25,22 +36,27 @@ function getDefaultForm(): FormGroup {
 export class BuyerDashboardComponent implements OnInit {
 
   buyerCarsDisplayedColumns: string[] = ['id', 'name', 'qty'];
-  allCarsDisplayedColumns: string[] = ['id', 'name', 'qty', 'price'];
+  allCarsDisplayedColumns: string[] = ['id', 'name', 'qty', 'price', 'actions'];
   buyerCarsDataSource: BuyerCar[] = [];
   allCarsDataSource: Car[] = [];
 
-  buyCarForm = getDefaultForm();
+  balanceForm = getDefaultBalanceForm();
+  balance: number = 1000;
+
+  buyCarForm = getDefaultBuyCarForm();
   selectedCar: Car | null = null;
 
   constructor(
     private allCarsAPIService: AllCarsApiService,
     private buyerCarsAPIService: BuyerCarsApiService,
+    private buyerApiService: BuyerApiService,
     private location: Location,
     private route: ActivatedRoute
   ) {
   }
 
   ngOnInit(): void {
+    this.getBuyer();
     this.getAllAvailableCars();
     this.getBuyerCars();
   }
@@ -68,6 +84,14 @@ export class BuyerDashboardComponent implements OnInit {
     },
   }
 
+  public getBuyer(): void {
+    this.buyerApiService.getCurrent()
+      .then(response => response.json())
+      .then(result => {
+        this.balance = result.balance;
+      });
+  }
+
   public getAllAvailableCars(): void {
     // TODO: filter by available
     this.allCarsAPIService.list()
@@ -82,7 +106,6 @@ export class BuyerDashboardComponent implements OnInit {
   }
 
   public onSelectCarToBuy(car: Car) {
-    console.log(car);
     this.allCarsAPIService.get(car.id)
       .then(response => response.json())
       .then(result => {
@@ -91,8 +114,23 @@ export class BuyerDashboardComponent implements OnInit {
   }
 
   public reset() {
-    this.buyCarForm = getDefaultForm();
+    this.buyCarForm = getDefaultBuyCarForm();
     this.selectedCar = null;
+  }
+
+  public async onUpdateBalance() {
+    const amountElement = this.balanceForm.get('amount');
+    if (!amountElement || amountElement.errors) {
+      return;
+    }
+
+    const amount = amountElement.value;
+    const buyer = await this.buyerApiService.getCurrent().then(response => response.json());
+    await this.buyerApiService.setBalance(buyer.id, amount)
+      .then(() => {
+        this.balanceForm = getDefaultBalanceForm();
+        this.getBuyer();
+      });
   }
 
   public async onBuyCarSubmit(): Promise<void> {
@@ -111,7 +149,6 @@ export class BuyerDashboardComponent implements OnInit {
     }
 
     const newCar = this.buyCarForm.value;
-    console.log(newCar);
 
     const car = await this.allCarsAPIService.get(this.selectedCar.id)
       .then(response => response.json())
@@ -133,7 +170,7 @@ export class BuyerDashboardComponent implements OnInit {
           name: result.name,
           qty: result.qty,
         });
-        this.buyCarForm = getDefaultForm();
+        this.buyCarForm = getDefaultBuyCarForm();
       })
       .then(() => this.getBuyerCars());
 

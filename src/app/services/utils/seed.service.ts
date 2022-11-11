@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {AllCarsApiService} from "../api/all-cars-api.service";
-import {BuyerService} from "../api/buyer.service";
+import {BuyerApiService} from "../api/buyerApiService";
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,7 @@ export class SeedService {
 
   constructor(
     private carAPIService: AllCarsApiService,
-    private buyerAPIService: BuyerService,
+    private buyerAPIService: BuyerApiService,
   ) { }
 
   public async trySeedBuyer() {

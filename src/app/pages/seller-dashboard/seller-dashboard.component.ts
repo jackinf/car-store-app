@@ -6,7 +6,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {
   CarData,
   SellerCarDialogComponent
-} from "../../components/dialogs/seller-add-new-car-dialog/seller-car-dialog.component";
+} from "../../components/dialogs/seller-car-dialog/seller-car-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 
 @Component({

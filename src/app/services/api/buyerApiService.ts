@@ -10,7 +10,7 @@ export interface AddPayload {
 @Injectable({
   providedIn: 'root'
 })
-export class BuyerService {
+export class BuyerApiService {
   private apiURL: string = environment.buyersApi;
 
   constructor() {
@@ -18,6 +18,16 @@ export class BuyerService {
 
   public list(): Promise<Response> {
     return fetch(this.apiURL, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    });
+  }
+
+  public getCurrent(): Promise<Response> {
+    return fetch(this.apiURL + 1, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -34,6 +44,17 @@ export class BuyerService {
         'Accept': 'application/json'
       },
       body: JSON.stringify(payload)
+    });
+  }
+
+  public async setBalance(id: number, balance: number): Promise<Response> {
+    return await fetch(this.apiURL + id, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({balance})
     });
   }
 }

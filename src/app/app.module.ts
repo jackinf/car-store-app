@@ -20,11 +20,13 @@ import {MatCardModule} from '@angular/material/card';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatTabsModule} from '@angular/material/tabs';
 import {SidenavListComponent} from './components/navigation/sidenav-list/sidenav-list.component';
 import {HeaderComponent} from './components/navigation/header/header.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import {SellerCarDialogComponent} from './components/dialogs/seller-add-new-car-dialog/seller-car-dialog.component';
+import {SellerCarDialogComponent} from './components/dialogs/seller-car-dialog/seller-car-dialog.component';
+import { BuyerBuyNewCarDialogComponent } from './components/dialogs/buyer-buy-new-car-dialog/buyer-buy-new-car-dialog.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import {SellerCarDialogComponent} from './components/dialogs/seller-add-new-car-
     SidenavListComponent,
     HeaderComponent,
     SellerCarDialogComponent,
+    BuyerBuyNewCarDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,6 +62,7 @@ import {SellerCarDialogComponent} from './components/dialogs/seller-add-new-car-
     MatCheckboxModule,
     MatDialogModule,
     MatDialogModule,
+    MatTabsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
